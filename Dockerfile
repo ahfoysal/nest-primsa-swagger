@@ -20,9 +20,8 @@ RUN npx prisma generate
 # Copy the rest of the source code
 COPY . ./
 
-# Volume for uploads
-VOLUME ["/app/uploads"]
- 
+# Volume for uploads with named path
+# VOLUME ["/app/uploads"]
 # Build the app (NestJS -> dist/)
 RUN npm run build
 

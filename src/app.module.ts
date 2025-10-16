@@ -7,9 +7,10 @@ import { EmployeesModule } from './employees/employees.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
-
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -36,12 +37,12 @@ import { JwtModule } from '@nestjs/jwt';
       {
         name: 'short',
         ttl: 60000,
-        limit: 10,
+        limit: 50,
       },
       {
         name: 'medium',
         ttl: 60000,
-        limit: 20,
+        limit: 50,
       },
       {
         name: 'long',
@@ -49,6 +50,10 @@ import { JwtModule } from '@nestjs/jwt';
         limit: 100,
       },
     ]),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
+    }),
     AuthModule,
   ],
   controllers: [AppController],

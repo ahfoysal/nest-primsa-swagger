@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "restapi",
+  "dockerFile": "Dockerfile",
+  "context": "..",
+  "runArgs": ["--name=restapi", "--rm", "-p", "5005:5005"],
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/app,type=bind",
+    "source=restapi-uploads,target=/app/uploads,type=volume",
+    "source=node_modules_cache,target=/app/node_modules,type=volume"
+  ],
+  "workspaceFolder": "/app",
+  "forwardPorts": [5005],
+  "postCreateCommand": "npm install && npx prisma generate",
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "editor.formatOnSave": true
+  },
+  "remoteUser": "root"
+}
