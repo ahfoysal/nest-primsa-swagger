@@ -19,7 +19,7 @@ import { apiBodyExample } from './example';
 import { S3Service } from './s3.service';
 import { S3ResponseDto } from './dto/s3.dto';
 
-@ApiTags('AWS S3 Uploads')
+@ApiTags('S3 Uploads')
 @Controller('aws-uploads')
 export class S3Controller {
   constructor(private readonly s3Service: S3Service) {}
