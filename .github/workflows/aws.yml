@@ -1,4 +1,4 @@
-name: Aws EC2 Workflow
+name: Aws EC2 Workflow V2
 
 # Trigger the workflow on push to the main branch
 on:
@@ -13,19 +13,22 @@ jobs:
     steps:
       # Step 1: Checkout the repo
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: Set up Node.js (if your app is Node.js; adjust if different)
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
 
       # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
+      # Step 4: Run tests (optional)
+      - name: Run tests
+        run: npm test
 
-      # Step 4: Deploy to AWS EC2 (example via SSH)
+      # Step 5: Deploy to AWS EC2 (example via SSH)
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v0.1.8
         with:
