@@ -50,7 +50,7 @@ export class AppController {
   uploadImage(@UploadedFile() file: Express.Multer.File) {
     return {
       message: 'Image uploaded successfully!',
-      filePath: `http://localhost:5005/uploads/${file.filename}`,
+      filePath: `/uploads/${file.filename}`,
     };
   }
 }
