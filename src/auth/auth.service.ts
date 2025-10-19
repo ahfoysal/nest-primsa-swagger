@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   Injectable,
   BadRequestException,
@@ -29,20 +27,20 @@ export class AuthService {
         throw new BadRequestException('User already exists');
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const hashedPassword = await bcrypt.hash(body.password, 10);
 
       const newUser = await this.prismaService.user.create({
         data: {
           name: body.name,
           email: body.email,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
           password: hashedPassword,
           role: body.role,
         },
       });
 
-      //  remove password from user object before returning
+      // ?  remove password from user object before returning
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = newUser;
       const { accessToken, refreshToken } = await this.generateUserTokens(
@@ -68,7 +66,6 @@ export class AuthService {
         throw new NotFoundException('User not found');
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const isPasswordValid = await bcrypt.compare(
         body.password,
         user.password,
@@ -76,7 +73,7 @@ export class AuthService {
       if (!isPasswordValid) {
         throw new UnauthorizedException('Invalid password');
       }
-      //  remove password from user object before returning
+      // ! remove password from user object before returning
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       const { accessToken, refreshToken } = await this.generateUserTokens(
@@ -120,7 +117,6 @@ export class AuthService {
     };
   }
   async refreshTokens(refreshToken: string) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const token = await this.prismaService.refreshToken.findUnique({
       where: { token: refreshToken },
     });
@@ -136,8 +132,8 @@ export class AuthService {
     if (!token) {
       throw new UnauthorizedException('Refresh Token is invalid');
     }
-    console.log(this.generateUserTokens(token.userId as number));
-    return this.generateUserTokens(token.userId as number);
+    console.log(this.generateUserTokens(token.userId));
+    return this.generateUserTokens(token.userId);
   }
 
   async storeRefreshToken(token: string, userId: number) {

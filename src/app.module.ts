@@ -11,12 +11,14 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { join } from 'path';
+import { S3BucketModule } from './s3/s3.module';
 
 @Module({
   imports: [
     UsersModule,
     PrismaModule,
     EmployeesModule,
+    S3BucketModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
