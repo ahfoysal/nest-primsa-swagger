@@ -1,4 +1,4 @@
-name: Aws EC2 Workflow V4
+name: Aws EC2 Workflow V5
 
 # Trigger the workflow on push to the main branch
 on:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js (if your app is Node.js; adjust if different)
+      # Step 2: Set up Node.js (adjust version as needed)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -24,11 +24,16 @@ jobs:
       # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
+
       # Step 4: Run tests (optional)
       - name: Run tests
         run: npm test
 
-      # Step 5: Deploy to AWS EC2 (example via SSH)
+      # Step 5: Build the project
+      - name: Build project
+        run: npm run build
+
+      # Step 6: Deploy to AWS EC2 (example via SSH)
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -37,7 +42,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd /path/to/your/app
+            cd nest-primsa-swagger/
             git pull origin main
             npm install
             pm2 restart all
