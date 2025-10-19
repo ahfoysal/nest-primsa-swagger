@@ -15,13 +15,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js (adjust version as needed)
+      # Step 2: Set up Node.js (locally on Actions runner, optional)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      # Step 3: Install dependencies
+      # Step 3: Install dependencies locally (optional)
       - name: Install dependencies
         run: npm install
 
@@ -29,11 +29,11 @@ jobs:
       - name: Run tests
         run: npm test
 
-      # Step 5: Build the project
+      # Step 5: Build the project locally (optional)
       - name: Build project
         run: npm run build
 
-      # Step 6: Deploy to AWS EC2 (example via SSH)
+      # Step 6: Deploy to AWS EC2 via SSH
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -42,8 +42,13 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            # Navigate to project directory
             cd ~/nest-primsa-swagger || exit 1
+
+            # Pull latest changes
             git pull origin main
-            npm install
-            npm run build
-            pm2 restart all
+
+            # Use full paths to npm and pm2 (adjust paths if different)
+            /home/ubuntu/.nvm/versions/node/v22.20.0/bin/npm install
+            /home/ubuntu/.nvm/versions/node/v22.20.0/bin/npm run build
+            /home/ubuntu/.nvm/versions/node/v22.20.0/bin/pm2 restart all
