@@ -1,4 +1,4 @@
-name: Aws EC2 Workflow V5
+name: Aws EC2 Workflow V6
 
 # Trigger the workflow on push to the main branch
 on:
