@@ -132,7 +132,7 @@ export class AuthService {
     if (!token) {
       throw new UnauthorizedException('Refresh Token is invalid');
     }
-    console.log(this.generateUserTokens(token.userId));
+
     return this.generateUserTokens(token.userId);
   }
 
